@@ -327,36 +327,43 @@
       slider.scrollLeft -= direction * scrollAmount;
     }
 
-    const idKota = 667;
-    const today = new Date();
-    const tanggalFormat = today.toLocaleDateString('id-ID', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+      const idKota = 667; // Kab. Malang
+  const now = new Date();
+
+  // Format tanggal yyyy-mm-dd
+  const tanggal = now.getFullYear() + "-" + 
+                  String(now.getMonth() + 1).padStart(2, "0") + "-" +
+                  String(now.getDate()).padStart(2, "0");
+
+  // Format tampilan tanggal lokal
+  const tanggalFormat = now.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  fetch(`https://api.myquran.com/v2/sholat/jadwal/${idKota}/${tanggal}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Gagal response dari API");
+      return res.json();
+    })
+    .then(data => {
+      const jadwal = data.data?.jadwal;
+      if (!jadwal) throw new Error("Data jadwal tidak ditemukan");
+
+      document.getElementById("tanggal").textContent = tanggalFormat;
+      document.getElementById("subuh").textContent = jadwal.subuh;
+      document.getElementById("terbit").textContent = jadwal.terbit;
+      document.getElementById("dzuhur").textContent = jadwal.dzuhur;
+      document.getElementById("ashar").textContent = jadwal.ashar;
+      document.getElementById("maghrib").textContent = jadwal.maghrib;
+      document.getElementById("isya").textContent = jadwal.isya;
+    })
+    .catch(err => {
+      console.error("Gagal mengambil jadwal sholat:", err);
+      document.getElementById("tanggal").textContent = "Gagal memuat jadwal.";
     });
-
-    fetch(`https://api.myquran.com/v2/sholat/jadwal/${idKota}/${today.toISOString().split("T")[0]}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Response tidak OK");
-        return res.json();
-      })
-      .then(data => {
-        const jadwal = data.data?.jadwal;
-        if (!jadwal) throw new Error("Data jadwal tidak ditemukan");
-        document.getElementById("tanggal").textContent = tanggalFormat;
-        document.getElementById("subuh").textContent = jadwal.subuh;
-        document.getElementById("terbit").textContent = jadwal.terbit;
-        document.getElementById("dzuhur").textContent = jadwal.dzuhur;
-        document.getElementById("ashar").textContent = jadwal.ashar;
-        document.getElementById("maghrib").textContent = jadwal.maghrib;
-        document.getElementById("isya").textContent = jadwal.isya;
-      })
-      .catch(err => {
-        console.error("Gagal mengambil jadwal sholat:", err);
-        document.getElementById("tanggal").textContent = "Gagal memuat jadwal.";
-      });
-
     document.getElementById("adminLogin").addEventListener("click", function(e) {
       e.preventDefault();
       document.getElementById("loginModal").style.display = "flex";
