@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baiturrahman Ngantang</title>
+  <style>
+    body 
+	   {
+            margin: 0;
+              font-family: Consolas, sans-serif;
+       }
+    .top-header 
+	   {
+            display: flex;
+              align-items: center;
+               padding: 2em;
+                background-color: #fff;
+       }
+    .top-header img 
+	{
+      height: 80px;
+      width: 80px;
+      object-fit: cover;
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+    .top-header .title h1 
+	{
+      margin: 0;
+      font-size: 2.2em;
+      color: #444;
+    }
+    .top-header .title p 
+	{
+      margin: 2px 0 0;
+      color: #888;
+      font-size: 0.95em;
+    }
+    nav 
+	{
+      background-color: #cfe2f3;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    .nav-container 
+	{
+      display: flex;
+      gap: 30px;
+      padding: 1.4em 2em;
+      position: relative;
+    }
+	.nav-container > div, .nav-container > a 
+	{
+      position: relative;
+	}  
+    .nav-container > a, 
+    .nav-container > .dropdown > a 
+	{
+      font-weight: bold;
+      color: black;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .nav-container a:hover 
+	{
+      color: #007BFF;
+    }
+	.dropdown 
+	{
+      position: relative;
+    }    
+	 .dropdown:hover .dropdown-content,
+     .dropdown-content:hover 
+	 {
+      display: block;
+    }
+    .dropdown-content 
+	{
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+      z-index: 1;
+    }
+	.dropdown-content a {
+      display: block;
+      padding: 10px;
+      color: #666;
+      text-decoration: none;
+      font-weight: normal;
+      font-size: 13px;
+    }
+	.dropdown-content a:hover {
+      background-color: #f2f2f2;
+      color: #007BFF;
+    }
+    .admin-bar {
+      background-color: #f0f0f0;
+      padding: 0.8em 2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+    .admin-left img {
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .admin-right a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .running-text-inline {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #000;
+      font-size: 28px;
+    }
+    .running-text-inline span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 65s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    .gallery-wrapper {
+      position: relative;
+      padding: 1em 2em;
+    }
+    .gallery-slider {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+	  -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      cursor: grab;
+    }
+    .gallery-slider::-webkit-scrollbar {
+      display: none;
+    }
+    .gallery-slider img {
+      flex: 0 0 calc(33.333% - 10px);
+      height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s;
+	  user-select: none;
+      -webkit-user-drag: none;
+    }
+	@media (max-width: 768px) {
+      .gallery-slider img {
+        flex: 0 0 calc(50% - 10px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-slider img {
+        flex: 0 0 100%;
+      }
+    }
+
+    .gallery-slider img:hover {
+      transform: scale(1.05);
+    }
+	
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .arrow-left { left: 10px; }
+    .arrow-right { right: 10px; }
+         </style>
+      </head>
+<body>
+  <div class="admin-bar">
+    <div class="admin-left">
+      <img src="22550044_101553120610407_1962766927916542431_n.jpg" alt="Mini Logo" />
+          </div>
+           <div class="running-text-inline">
+             <span>Selamat datang di Website Masjid Baiturrahman Ngantang - Jadwal kegiatan, donasi, dan informasi terbaru tersedia di halaman utama</span>
+                </div>
+                  <div class="admin-right">
+                    <a href="#" id="adminLogin">Login Admin</a>
+                      </div>
+                        </div>
+                         <div class="top-header">
+                          <img src="22550044_101553120610407_1962766927916542431_n.jpg" alt="Foto Masjid" />
+                            <div class="title">
+                              <h1>BAITURRAHMAN NGANTANG</h1>
+                                <p>Deskripsi / Slogan Masjid </p>
+                              </div>
+                             </div>
+                            <nav>
+                          <div class="nav-container">
+                         <a href="#">Beranda</a>
+	                    <div class="dropdown">
+                      <a href="#">Profil</a>
+	                 <div class="dropdown-content">
+	                <a href="#">Profil Masjid</a>
+		           <a href="#">Sejarah</a>
+		          <a href="#">Pengurus</a>
+	             </div>
+	            </div> 
+	              <div class="dropdown">
+	                <a href="#">Program</a>
+                      <div class="dropdown-content">
+	                    <a href="#">Keagamaan dan Dakwah</a>
+                          <a href="#">Ekonomi dan Sosial</a>
+                           <a href="#">Sarana dan Prasarana</a>
+		                     </div>
+                              </div>
+  
+                               <a href="#">Berita</a>
+                                  <a href="#">Artikel</a>
+	                                  <div class="dropdown"> 
+                                       <a href="#">Galeri</a>
+	                                 <div class="dropdown-content"> 
+	                               <a href="#">Foto</a>
+                                 <a href="#">Video</a>
+                               </div>
+                             </div>
+                           <a href="#">Donasi</a>
+                             <a href="#">Laporan</a>
+                               <a href="#">Kontak</a>
+                                 </div>
+                                    </nav>
+  
+   <!-- Galeri Foto manual scroll -->
+  <div class="gallery-wrapper">
+    <button class="arrow-btn arrow-right" onclick="scrollGallery(-1)">&#10095;</button>
+    <button class="arrow-btn arrow-left" onclick="scrollGallery(1)">&#10094;</button>
+    <div class="gallery-slider" id="gallerySlider">
+      <img src="foto1.jpg" alt="Foto 1">
+      <img src="foto2.jpg" alt="Foto 2">
+      <img src="foto3.jpg" alt="Foto 3">
+	  <img src="foto4.jpg" alt="Foto 4">
+	  <img src="foto5.jpg" alt="Foto 5">
+	  <img src="foto6.jpg" alt="Foto 6">
+    </div>
+  </div>
+  <section style="padding: 1em; display: flex; justify-content: center;">
+    <div style="width: 100%; max-width: 1200px; height: auto; border: 2px solid #d4af37; border-radius: 8px; padding: 1em; background-image: url('https://www.transparenttextures.com/patterns/arabesque.png'); background-color: #fff;">
+      <h3 style="margin: 0; font-size: 1em; color: #555;">Jadwal Shalat</h3>
+      <h2 style="margin: 0.2em 0; font-size: 1.6em; color: #000;">Di KAB. MALANG</h2>
+      <p style="margin: 0 0 1em; color: #555; font-size: 1em;" id="tanggal">Memuat...</p>
+      <div style="display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center; gap: 10px;">
+        <div><strong>Subuh</strong><div id="subuh">-</div></div>
+        <div><strong>Terbit</strong><div id="terbit">-</div></div>
+        <div><strong>Dzuhur</strong><div id="dzuhur">-</div></div>
+        <div><strong>Ashar</strong><div id="ashar">-</div></div>
+        <div><strong>Maghrib</strong><div id="maghrib">-</div></div>
+        <div><strong>Isya</strong><div id="isya">-</div></div>
+      </div>
+    </div>
+  </section>
+  <div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#fff; padding:20px; border-radius:8px; width:300px; box-shadow:0 2px 10px rgba(0,0,0,0.3); position:relative;">
+      <h3 style="text-align:center;">Login Admin</h3>
+      <input type="text" placeholder="Username" style="width:93%; padding:8px; margin-bottom:10px;">
+      <input type="password" placeholder="Password" style="width:93%; padding:8px; margin-bottom:10px;">
+      <button style="width:100%; padding:12px; background-color:#007BFF; color:white; border:none; border-radius:4px;">Login</button>
+    </div>
+  </div>
+  
+  <script> 
+      const slider = document.getElementById('gallerySlider');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      slider.classList.add('active');
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+	});
+	slider.addEventListener('mouseleave', () => {
+      isDown = false;
+    });
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX);
+      slider.scrollLeft = scrollLeft - walk;
+    });
+	 slider.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].pageX;
+      scrollLeft = slider.scrollLeft;
+    });
+	 slider.addEventListener('touchmove', (e) => {
+      const x = e.touches[0].pageX;
+      const walk = (x - startX);
+      slider.scrollLeft = scrollLeft - walk;
+    });
+
+    function scrollGallery(direction) {
+      const slider = document.getElementById("gallerySlider");
+      const scrollAmount = slider.clientWidth / 2;
+      slider.scrollLeft -= direction * scrollAmount;
+    }
+
+    const idKota = 674;
+    const today = new Date();
+    const tanggalFormat = today.toLocaleDateString('id-ID', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    fetch(`https://api.myquran.com/v2/sholat/jadwal/${idKota}/${today.toISOString().split("T")[0]}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Response tidak OK");
+        return res.json();
+      })
+      .then(data => {
+        const jadwal = data.data?.jadwal;
+        if (!jadwal) throw new Error("Data jadwal tidak ditemukan");
+        document.getElementById("tanggal").textContent = tanggalFormat;
+        document.getElementById("subuh").textContent = jadwal.subuh;
+        document.getElementById("terbit").textContent = jadwal.terbit;
+        document.getElementById("dzuhur").textContent = jadwal.dzuhur;
+        document.getElementById("ashar").textContent = jadwal.ashar;
+        document.getElementById("maghrib").textContent = jadwal.maghrib;
+        document.getElementById("isya").textContent = jadwal.isya;
+      })
+      .catch(err => {
+        console.error("Gagal mengambil jadwal sholat:", err);
+        document.getElementById("tanggal").textContent = "Gagal memuat jadwal.";
+      });
+
+    document.getElementById("adminLogin").addEventListener("click", function(e) {
+      e.preventDefault();
+      document.getElementById("loginModal").style.display = "flex";
+    });
+    document.getElementById("loginModal").addEventListener("click", function(e) {
+      if (e.target === this) this.style.display = "none";
+    });
+  </script>
+</body>
+</html>
