@@ -290,73 +290,94 @@
   </div>
   
 <script>
-  // GALERI
-  const slider = document.getElementById('gallerySlider');
-  let isDown = false, startX, scrollLeft;
+// GALERI
+const slider = document.getElementById('gallerySlider');
+let isDown = false;
+let startX;
+let scrollLeft;
 
-  ['mousedown','touchstart'].forEach(evt => {
-    slider.addEventListener(evt, e => {
-      isDown = true;
-      startX = e.pageX || e.touches[0].pageX;
-      scrollLeft = slider.scrollLeft;
-    });
-  });
-  ['mouseleave','mouseup','touchend'].forEach(evt => {
-    slider.addEventListener(evt, () => isDown = false);
-  });
-  ['mousemove','touchmove'].forEach(evt => {
-    slider.addEventListener(evt, e => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = (e.pageX || e.touches[0].pageX) - slider.offsetLeft;
-      slider.scrollLeft = scrollLeft - (x - startX);
-    });
-  });
+slider.addEventListener('mousedown', (e) => {
+  isDown = true;
+  slider.classList.add('active');
+  startX = e.pageX - slider.offsetLeft;
+  scrollLeft = slider.scrollLeft;
+});
+slider.addEventListener('mouseleave', () => { isDown = false; });
+slider.addEventListener('mouseup', () => { isDown = false; });
+slider.addEventListener('mousemove', (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - slider.offsetLeft;
+  const walk = (x - startX);
+  slider.scrollLeft = scrollLeft - walk;
+});
+slider.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].pageX;
+  scrollLeft = slider.scrollLeft;
+});
+slider.addEventListener('touchmove', (e) => {
+  const x = e.touches[0].pageX;
+  const walk = (x - startX);
+  slider.scrollLeft = scrollLeft - walk;
+});
 
-  function scrollGallery(direction) {
-    slider.scrollLeft -= direction * (slider.clientWidth / 2);
-  }
+function scrollGallery(direction) {
+  const scrollAmount = slider.clientWidth / 2;
+  slider.scrollLeft -= direction * scrollAmount;
+}
 
-  // JAM DIGITAL
-  const jamEl = document.createElement('p');
-  jamEl.id = 'jamSekarang';
-  jamEl.style = 'font-size:1.2em;color:#000;margin:0.5em 0;';
-  document.getElementById('tanggal').before(jamEl);
+// TAMPILKAN JAM DIGITAL
+const jamElemen = document.createElement("p");
+jamElemen.id = "jamSekarang";
+jamElemen.style = "font-size: 1.2em; color: #000; margin: 0.5em 0;";
+document.getElementById("tanggal").before(jamElemen);
 
-  setInterval(() => {
-    const now = new Date();
-    jamEl.textContent = 'Pukul: ' + now.toLocaleTimeString('id-ID',{hour12:false});
-  },1000);
-
-  // JADWAL SHOLAT /today
-  const idKota = 667;
+setInterval(() => {
   const now = new Date();
-  const tanggalFormat = now.toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const jam = now.toLocaleTimeString('id-ID', { hour12: false });
+  document.getElementById("jamSekarang").textContent = "Pukul: " + jam;
+}, 1000);
 
-  fetch(`https://api.myquran.com/v2/sholat/jadwal/${idKota}/today`)
-    .then(res => res.ok ? res.json() : Promise.reject('Response tidak OK'))
-    .then(data => {
-      const jadwal = data.data?.jadwal;
-      if (!jadwal) return Promise.reject('Jadwal kosong');
-      document.getElementById('tanggal').textContent = data.data.lokasi + ' – ' + tanggalFormat;
-      ['subuh','terbit','dzuhur','ashar','maghrib','isya'].forEach(sh => {
-        document.getElementById(sh).textContent = jadwal[sh] || '-';
-      });
-    })
-    .catch(err => {
-      console.error('Error jadwal:', err);
-      document.getElementById('tanggal').textContent = tanggalFormat + ' | Jadwal tidak tersedia';
-    });
+// JADWAL SHOLAT dari API AlAdhan
+const now = new Date();
+const tanggalFormat = now.toLocaleDateString('id-ID', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
 
-  // MODAL LOGIN
-  document.getElementById('adminLogin').addEventListener('click', e => {
-    e.preventDefault();
-    document.getElementById('loginModal').style.display = 'flex';
+// Lokasi Kab. Malang / Ngantang
+const lat = -7.95;
+const lon = 112.64;
+
+fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`)
+  .then(res => res.ok ? res.json() : Promise.reject('Response error'))
+  .then(resp => {
+    const t = resp.data.timings;
+    document.getElementById("tanggal").textContent = tanggalFormat;
+    document.getElementById("subuh").textContent = t.Fajr;
+    document.getElementById("terbit").textContent = t.Sunrise;
+    document.getElementById("dzuhur").textContent = t.Dhuhr;
+    document.getElementById("ashar").textContent = t.Asr;
+    document.getElementById("maghrib").textContent = t.Maghrib;
+    document.getElementById("isya").textContent = t.Isha;
+  })
+  .catch(err => {
+    console.error("Gagal mengambil jadwal sholat:", err);
+    document.getElementById("tanggal").textContent = tanggalFormat + " | Jadwal tidak tersedia.";
   });
-  document.getElementById('loginModal').addEventListener('click', e => {
-    if (e.target === e.currentTarget) e.currentTarget.style.display = 'none';
-  });
+
+// LOGIN MODAL
+document.getElementById("adminLogin").addEventListener("click", function(e) {
+  e.preventDefault();
+  document.getElementById("loginModal").style.display = "flex";
+});
+document.getElementById("loginModal").addEventListener("click", function(e) {
+  if (e.target === this) this.style.display = "none";
+});
 </script>
+
 
 </body>
 </html>
