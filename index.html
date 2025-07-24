@@ -289,53 +289,59 @@
     </div>
   </div>
   
-  <script> 
-      const slider = document.getElementById('gallerySlider');
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+  <script>
+  // GALERI
+  const slider = document.getElementById('gallerySlider');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
 
-    slider.addEventListener('mousedown', (e) => {
-      isDown = true;
-      slider.classList.add('active');
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-	});
-	slider.addEventListener('mouseleave', () => {
-      isDown = false;
-    });
-    slider.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX);
-      slider.scrollLeft = scrollLeft - walk;
-    });
-	 slider.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].pageX;
-      scrollLeft = slider.scrollLeft;
-    });
-	 slider.addEventListener('touchmove', (e) => {
-      const x = e.touches[0].pageX;
-      const walk = (x - startX);
-      slider.scrollLeft = scrollLeft - walk;
-    });
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener('mouseleave', () => { isDown = false; });
+  slider.addEventListener('mouseup', () => { isDown = false; });
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX);
+    slider.scrollLeft = scrollLeft - walk;
+  });
+  slider.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].pageX;
+    scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener('touchmove', (e) => {
+    const x = e.touches[0].pageX;
+    const walk = (x - startX);
+    slider.scrollLeft = scrollLeft - walk;
+  });
 
-    function scrollGallery(direction) {
-      const slider = document.getElementById("gallerySlider");
-      const scrollAmount = slider.clientWidth / 2;
-      slider.scrollLeft -= direction * scrollAmount;
-    }
+  function scrollGallery(direction) {
+    const scrollAmount = slider.clientWidth / 2;
+    slider.scrollLeft -= direction * scrollAmount;
+  }
 
-      const idKota = 667; // Kab. Malang
+  // TAMPILKAN JAM DIGITAL
+  const jamElemen = document.createElement("p");
+  jamElemen.id = "jamSekarang";
+  jamElemen.style = "font-size: 1.2em; color: #000; margin: 0.5em 0;";
+  document.getElementById("tanggal").before(jamElemen);
+
+  setInterval(() => {
+    const now = new Date();
+    const jam = now.toLocaleTimeString('id-ID', { hour12: false });
+    document.getElementById("jamSekarang").textContent = "Pukul: " + jam;
+  }, 1000);
+
+  // JADWAL SHOLAT
+  const idKota = 667; // Kab. Malang
   const now = new Date();
-
-  // Format tanggal yyyy-mm-dd
-  const tanggal = now.getFullYear() + "-" + 
-                  String(now.getMonth() + 1).padStart(2, "0") + "-" +
-                  String(now.getDate()).padStart(2, "0");
-
-  // Format tampilan tanggal lokal
+  const tanggal = now.toISOString().split("T")[0];
   const tanggalFormat = now.toLocaleDateString('id-ID', {
     weekday: 'long',
     year: 'numeric',
@@ -351,7 +357,6 @@
     .then(data => {
       const jadwal = data.data?.jadwal;
       if (!jadwal) throw new Error("Data jadwal tidak ditemukan");
-
       document.getElementById("tanggal").textContent = tanggalFormat;
       document.getElementById("subuh").textContent = jadwal.subuh;
       document.getElementById("terbit").textContent = jadwal.terbit;
@@ -362,15 +367,17 @@
     })
     .catch(err => {
       console.error("Gagal mengambil jadwal sholat:", err);
-      document.getElementById("tanggal").textContent = "Gagal memuat jadwal.";
+      document.getElementById("tanggal").textContent = tanggalFormat + " | Jadwal tidak tersedia.";
     });
-    document.getElementById("adminLogin").addEventListener("click", function(e) {
-      e.preventDefault();
-      document.getElementById("loginModal").style.display = "flex";
-    });
-    document.getElementById("loginModal").addEventListener("click", function(e) {
-      if (e.target === this) this.style.display = "none";
-    });
-  </script>
+
+  // LOGIN MODAL
+  document.getElementById("adminLogin").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.getElementById("loginModal").style.display = "flex";
+  });
+  document.getElementById("loginModal").addEventListener("click", function(e) {
+    if (e.target === this) this.style.display = "none";
+  });
+</script>
 </body>
 </html>
