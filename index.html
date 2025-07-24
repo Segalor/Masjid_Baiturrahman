@@ -289,7 +289,7 @@
     </div>
   </div>
   
-  <script>
+ <script>
   // GALERI
   const slider = document.getElementById('gallerySlider');
   let isDown = false;
@@ -338,10 +338,9 @@
     document.getElementById("jamSekarang").textContent = "Pukul: " + jam;
   }, 1000);
 
-  // JADWAL SHOLAT
+  // JADWAL SHOLAT PAKAI /today (fix error)
   const idKota = 667; // Kab. Malang
   const now = new Date();
-  const tanggal = now.toISOString().split("T")[0];
   const tanggalFormat = now.toLocaleDateString('id-ID', {
     weekday: 'long',
     year: 'numeric',
@@ -349,7 +348,7 @@
     day: 'numeric'
   });
 
-  fetch(`https://api.myquran.com/v2/sholat/jadwal/${idKota}/${tanggal}`)
+  fetch(`https://api.myquran.com/v2/sholat/jadwal/${idKota}/today`)
     .then(res => {
       if (!res.ok) throw new Error("Gagal response dari API");
       return res.json();
@@ -357,7 +356,7 @@
     .then(data => {
       const jadwal = data.data?.jadwal;
       if (!jadwal) throw new Error("Data jadwal tidak ditemukan");
-      document.getElementById("tanggal").textContent = tanggalFormat;
+      document.getElementById("tanggal").textContent = data.data.lokasi + " - " + tanggalFormat;
       document.getElementById("subuh").textContent = jadwal.subuh;
       document.getElementById("terbit").textContent = jadwal.terbit;
       document.getElementById("dzuhur").textContent = jadwal.dzuhur;
