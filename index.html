@@ -400,14 +400,29 @@ document.getElementById("loginModal").addEventListener("click", function(e) {
       const pass = document.getElementById("password").value.trim();
 
       if (user === "admin" && pass === "baiturrahman123") {
-        window.location.href = "https://segalor.github.io/Masjid_Baiturrahman/admin/";
-         // redirect ke folder admin
+        window.location.href = "admin/"; // redirect ke folder admin
       } else {
         alert("Username atau Password salah");
       }
     }
-</script>
 
+ // Ambil pengumuman dari data/pengumuman.json
+    fetch("data/pengumuman.json")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("list-pengumuman");
+        data.forEach(item => {
+          const li = document.createElement("li");
+          li.style = "background:#f9f9f9; padding:1em; margin-bottom:10px; border-radius:6px; border:1px solid #ddd";
+          li.innerHTML = `<strong>${item.judul}</strong><br>${item.isi}`;
+          list.appendChild(li);
+        });
+      })
+      .catch(err => {
+        document.getElementById("list-pengumuman").innerHTML = "<li>Gagal memuat pengumuman.</li>";
+        console.error("Gagal memuat pengumuman:", err);
+      });
+  </script>
 
 </body>
 </html>
