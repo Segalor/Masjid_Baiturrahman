@@ -1,0 +1,58 @@
+/* style.css */
+
+body {
+  font-family: sans-serif;
+  background: #f1f5f9;
+  padding: 2rem;
+  margin: 0;
+}
+
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 700px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1, h3 {
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+textarea {
+  height: 300px;
+  resize: vertical;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border: none;
+  background: #10b981;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #059669;
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Masjid</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>?? Admin Masjid</h1>
+
+    <label for="token">GitHub Token:</label>
+    <input type="password" id="token" placeholder="Masukkan token GitHub...">
+    <button onclick="saveToken()">?? Simpan Token</button>
+
+    <hr />
+
+    <label for="filePath">??? Pilih File yang Ingin Diedit (contoh: index.html, data/pengumuman.json):</label>
+    <input type="text" id="filePath" placeholder="contoh: index.html">
+
+    <button onclick="loadFile()">?? Muat File</button>
+
+    <textarea id="fileContent" placeholder="Konten file akan tampil di sini..."></textarea>
+
+    <button onclick="saveFile()">?? Simpan ke GitHub</button>
+
+    <hr />
+
+    <h3>?? Upload Gambar ke Folder <code>img/</code></h3>
+    <input type="file" id="uploadInput">
+    <button onclick="uploadImage()">Upload</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
