@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profil Masjid</title>
   <style>
     body {
@@ -29,7 +29,6 @@
       color: #007BFF;
       font-weight: bold;
       font-size: 14px;
-      cursor: pointer;
     }
     .running-text-inline {
       position: absolute;
@@ -81,8 +80,8 @@
       display: flex;
       gap: 30px;
       padding: 1.4em 2em;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
     }
     .nav-container > a {
       font-weight: bold;
@@ -93,22 +92,19 @@
     .nav-container a:hover {
       color: #007BFF;
     }
-
     .content {
       max-width: 900px;
       margin: auto;
       padding: 2em;
-      line-height: 1.8;
     }
-
-    .content h2 {
+    #judul {
       text-align: center;
       color: #444;
     }
-
-    .content p {
+    #isi {
       text-align: justify;
       color: #333;
+      line-height: 1.8;
     }
   </style>
 </head>
@@ -149,10 +145,22 @@
   </nav>
 
   <div class="content">
-    <h2>Profil Masjid Baiturrahman</h2>
-    <p>Masjid Baiturrahman Ngantang berdiri sejak tahun 1990 dan telah menjadi pusat kegiatan ibadah, pendidikan Islam, dan sosial kemasyarakatan warga sekitar.</p>
-    <p>Masjid ini rutin mengadakan kegiatan keagamaan seperti pengajian rutin, santunan anak yatim, kegiatan sosial Jumat berkah, serta gotong royong warga sekitar.</p>
+    <h2 id="judul">Memuat...</h2>
+    <div id="isi">Silakan tunggu, konten sedang dimuat...</div>
   </div>
+
+  <script>
+    fetch("data/profil.json")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("judul").textContent = data.judul;
+        document.getElementById("isi").innerHTML = data.isi;
+      })
+      .catch(() => {
+        document.getElementById("judul").textContent = "Gagal memuat data.";
+        document.getElementById("isi").textContent = "";
+      });
+  </script>
 
 </body>
 </html>
