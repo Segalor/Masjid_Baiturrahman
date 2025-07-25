@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sejarah Masjid</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Consolas, sans-serif;
+    }
+    .admin-bar {
+      background-color: #f0f0f0;
+      padding: 0.8em 2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+    .admin-left img {
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .admin-right a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .running-text-inline {
+      position: absolute;
+      left: 25%;
+      right: 25%;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #000;
+      font-size: 16px;
+    }
+    .running-text-inline span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 65s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    .top-header {
+      display: flex;
+      align-items: center;
+      padding: 2em;
+      background-color: #fff;
+    }
+    .top-header img {
+      height: 80px;
+      width: 80px;
+      object-fit: cover;
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+    .top-header .title h1 {
+      margin: 0;
+      font-size: 2.2em;
+      color: #444;
+    }
+    .top-header .title p {
+      margin: 2px 0 0;
+      color: #888;
+      font-size: 0.95em;
+    }
+    nav {
+      background-color: #cfe2f3;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    .nav-container {
+      display: flex;
+      gap: 30px;
+      padding: 1.4em 2em;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .nav-container > a {
+      font-weight: bold;
+      color: black;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .nav-container a:hover {
+      color: #007BFF;
+    }
+    .content {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    #judul {
+      text-align: center;
+      color: #444;
+    }
+    #isi {
+      text-align: justify;
+      color: #333;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-bar">
+    <div class="admin-left">
+      <img src="22550044_101553120610407_1962766927916542431_n.jpg" alt="Mini Logo" />
+    </div>
+    <div class="running-text-inline">
+      <span>Selamat datang di Website Masjid Baiturrahman Ngantang</span>
+    </div>
+    <div class="admin-right">
+      <a href="index.html">Beranda</a>
+    </div>
+  </div>
+
+  <div class="top-header">
+    <img src="22550044_101553120610407_1962766927916542431_n.jpg" alt="Foto Masjid" />
+    <div class="title">
+      <h1>BAITURRAHMAN NGANTANG</h1>
+      <p>Sejarah Masjid</p>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-container">
+      <a href="index.html">Beranda</a>
+      <a href="profil.html">Profil Masjid</a>
+      <a href="sejarah.html">Sejarah</a>
+      <a href="pengurus.html">Pengurus</a>
+      <a href="#">Program</a>
+      <a href="#">Berita</a>
+      <a href="#">Artikel</a>
+      <a href="#">Donasi</a>
+      <a href="#">Kontak</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h2 id="judul">Memuat...</h2>
+    <div id="isi">Silakan tunggu, konten sedang dimuat...</div>
+  </div>
+
+  <script>
+    fetch("data/sejarah.json")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("judul").textContent = data.judul;
+        document.getElementById("isi").innerHTML = data.isi;
+      })
+      .catch(() => {
+        document.getElementById("judul").textContent = "Gagal memuat data.";
+        document.getElementById("isi").textContent = "";
+      });
+  </script>
+
+</body>
+</html>
