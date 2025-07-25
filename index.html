@@ -215,8 +215,12 @@
     </div>
   </div>
        <section style="padding: 2em; max-width: 900px; margin: auto;">
-    <h2 style="text-align: center;">📢 Pengumuman</h2>
+     <h2 style="text-align: center;">📢 Pengumuman</h2>
     <ul id="list-pengumuman" style="list-style: none; padding: 0;"></ul>
+  </section>
+      <section id="kontenHalaman" style="padding: 2em; max-width: 900px; margin: auto; display: none;">
+    <h2 id="judulHalaman" style="text-align: center;"></h2>
+    <div id="isiHalaman" style="text-align: justify;"></div>
   </section>
       <div id="loginModal">
     <div class="modal-content">
@@ -239,13 +243,14 @@
     <div class="nav-container">
       <a href="#">Beranda</a>
       <div class="dropdown">
-        <a href="#">Profil</a>
-        <div class="dropdown-content">
-          <a href="#">Profil Masjid</a>
-          <a href="#">Sejarah</a>
-          <a href="#">Pengurus</a>
-        </div>
-      </div>
+  <a href="#">Profil</a>
+  <div class="dropdown-content">
+    <a href="#" onclick="loadHalaman('profil.json')">Profil Masjid</a>
+    <a href="#" onclick="loadHalaman('sejarah.json')">Sejarah</a>
+    <a href="#" onclick="loadHalaman('pengurus.json')">Pengurus</a>
+  </div>
+</div>
+
       <div class="dropdown">
         <a href="#">Program</a>
         <div class="dropdown-content">
@@ -426,6 +431,21 @@ document.getElementById("loginModal").addEventListener("click", function(e) {
         document.getElementById("list-pengumuman").innerHTML = "<li>Gagal memuat pengumuman.</li>";
         console.error("Gagal memuat pengumuman:", err);
       });
+	   // Fungsi untuk memuat halaman dinamis dari file JSON
+    function loadHalaman(file) {
+      fetch("data/" + file)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("judulHalaman").textContent = data.judul;
+          document.getElementById("isiHalaman").innerHTML = data.isi;
+          document.getElementById("kontenHalaman").style.display = "block";
+          window.scrollTo({ top: document.getElementById("kontenHalaman").offsetTop, behavior: 'smooth' });
+        })
+        .catch(() => {
+          document.getElementById("judulHalaman").textContent = "Gagal memuat halaman";
+          document.getElementById("isiHalaman").textContent = "";
+        });
+    }
   </script>
 
 </body>
