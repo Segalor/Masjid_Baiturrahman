@@ -1,82 +1,37 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel Masjid</title>
-  <style>
-    body {
-      font-family: Consolas, monospace;
-      margin: 0;
-      background: #fff;
-    }
-    .admin-header {
-      background-color: #f0f0f0;
-      padding: 1em 2em;
-      border-bottom: 1px solid #ddd;
-    }
-    .admin-header h2 {
-      margin: 0;
-      font-size: 1.5em;
-      color: #333;
-    }
-    .admin-container {
-      max-width: 960px;
-      margin: 2em auto;
-      padding: 1em;
-    }
-    textarea {
-      width: 100%;
-      height: 400px;
-      font-family: Consolas, monospace;
-      font-size: 14px;
-      padding: 1em;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-    select, button {
-      font-size: 14px;
-      padding: 0.4em 0.8em;
-      margin-top: 1em;
-      margin-right: 10px;
-    }
-    button {
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #statusHTML {
-      margin-top: 1em;
-      font-size: 0.9em;
-      color: green;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Masjid</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="admin-header">
-    <h2>🛠️ Admin Panel Masjid Baiturrahman</h2>
+  <div class="container">
+    <h1>?? Admin Masjid</h1>
+
+    <label for="token">GitHub Token:</label>
+    <input type="password" id="token" placeholder="Masukkan token GitHub...">
+    <button onclick="saveToken()">?? Simpan Token</button>
+
+    <hr />
+
+    <label for="filePath">??? Pilih File yang Ingin Diedit (contoh: index.html, data/pengumuman.json):</label>
+    <input type="text" id="filePath" placeholder="contoh: index.html">
+
+    <button onclick="loadFile()">?? Muat File</button>
+
+    <textarea id="fileContent" placeholder="Konten file akan tampil di sini..."></textarea>
+
+    <button onclick="saveFile()">?? Simpan ke GitHub</button>
+
+    <hr />
+
+    <h3>?? Upload Gambar ke Folder <code>img/</code></h3>
+    <input type="file" id="uploadInput">
+    <button onclick="uploadImage()">Upload</button>
   </div>
 
-  <div class="admin-container">
-    <label for="fileHTML">Pilih File:</label>
-    <select id="fileHTML">
-      <option value="index.html">index.html</option>
-      <option value="profil.html">profil.html</option>
-      <option value="artikel.html">artikel.html</option>
-      <option value="galeri.html">galeri.html</option>
-    </select>
-    <button onclick="muatHTML()">📂 Buka</button>
-
-    <textarea id="editorHTML" placeholder="Konten HTML akan muncul di sini..."></textarea>
-
-    <br>
-    <button onclick="simpanHTML()">💾 Simpan Perubahan</button>
-    <p id="statusHTML"></p>
-  </div>
-
-  <script src="editor.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
