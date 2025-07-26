@@ -1,82 +1,82 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel Masjid</title>
-  <style>
-    body {
-      font-family: Consolas, monospace;
-      margin: 0;
-      background: #fff;
-    }
-    .admin-header {
-      background-color: #f0f0f0;
-      padding: 1em 2em;
-      border-bottom: 1px solid #ddd;
-    }
-    .admin-header h2 {
-      margin: 0;
-      font-size: 1.5em;
-      color: #333;
-    }
-    .admin-container {
-      max-width: 960px;
-      margin: 2em auto;
-      padding: 1em;
-    }
-    textarea {
-      width: 100%;
-      height: 400px;
-      font-family: Consolas, monospace;
-      font-size: 14px;
-      padding: 1em;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-    select, button {
-      font-size: 14px;
-      padding: 0.4em 0.8em;
-      margin-top: 1em;
-      margin-right: 10px;
-    }
-    button {
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #statusHTML {
-      margin-top: 1em;
-      font-size: 0.9em;
-      color: green;
-    }
-  </style>
-</head>
-<body>
-  <div class="admin-header">
-    <h2>🛠️ Admin Panel Masjid Baiturrahman</h2>
-  </div>
+// Ganti dengan username dan repo kamu
+const username = "Segalor";
+const repo = "Masjid_Baiturrahman";
 
-  <div class="admin-container">
-    <label for="fileHTML">Pilih File:</label>
-    <select id="fileHTML">
-      <option value="index.html">index.html</option>
-      <option value="profil.html">profil.html</option>
-      <option value="artikel.html">artikel.html</option>
-      <option value="galeri.html">galeri.html</option>
-    </select>
-    <button onclick="muatHTML()">📂 Buka</button>
+// Token kamu (simpan baik-baik, jangan bocorkan ke publik)
+const token = "ghp_xxx..."; // <- GANTI dengan GitHub Token kamu
 
-    <textarea id="editorHTML" placeholder="Konten HTML akan muncul di sini..."></textarea>
+const editor = document.getElementById("editorHTML");
+const fileSelect = document.getElementById("fileHTML");
+const status = document.getElementById("statusHTML");
 
-    <br>
-    <button onclick="simpanHTML()">💾 Simpan Perubahan</button>
-    <p id="statusHTML"></p>
-  </div>
+let sha = ""; // Untuk menyimpan versi terakhir file di GitHub
 
-  <script src="editor.js"></script>
-</body>
-</html>
+function muatHTML() {
+  const file = fileSelect.value;
+  status.textContent = "Memuat...";
+  fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github.v3.raw"
+    }
+  })
+    .then(res => {
+      sha = "";
+      if (!res.ok) throw new Error("Gagal memuat file.");
+      return res.text();
+    })
+    .then(text => {
+      editor.value = text;
+      return fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github.v3+json"
+        }
+      });
+    })
+    .then(res => res.json())
+    .then(data => {
+      sha = data.sha;
+      status.textContent = "Berhasil dimuat.";
+    })
+    .catch(err => {
+      console.error(err);
+      status.textContent = "Gagal memuat file.";
+    });
+}
+
+function simpanHTML() {
+  const file = fileSelect.value;
+  const kontenBaru = editor.value;
+  const encoded = btoa(unescape(encodeURIComponent(kontenBaru)));
+
+  if (!sha) {
+    status.textContent = "File belum dimuat!";
+    return;
+  }
+
+  fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github.v3+json"
+    },
+    body: JSON.stringify({
+      message: `update ${file} via admin panel`,
+      content: encoded,
+      sha: sha
+    })
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Gagal menyimpan.");
+      return res.json();
+    })
+    .then(data => {
+      sha = data.content.sha;
+      status.textContent = "Berhasil disimpan ke GitHub.";
+    })
+    .catch(err => {
+      console.error(err);
+      status.textContent = "Gagal menyimpan perubahan.";
+    });
+}
