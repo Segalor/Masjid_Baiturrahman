@@ -212,7 +212,8 @@
   <h4 class="mb-4">Ubah Selamat Datang</h4>
   <div class="card">
     <div class="card-body">
-      <form action="#" method="post" enctype="multipart/form-data">
+      <form onsubmit="event.preventDefault(); simpanKeGitHub();" enctype="multipart/form-data">
+
 
         <div class="form-group row mb-3">
           <label for="judul" class="col-sm-3 col-form-label">Judul :</label>
