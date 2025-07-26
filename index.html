@@ -199,7 +199,29 @@
     }
 	    .arrow-left { left: 10px; }
        .arrow-right { right: 10px; }
-	
+	   
+      #selamat-container {
+      padding-left: 5rem;
+      padding-right:5rem;
+      text-align: justify;  
+    }
+	 #welcome-section .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  #selamat-judul {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  #selamat-isi {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    text-align: justify;
+  }
   </style>
 </head>
 <body>
@@ -291,7 +313,7 @@
   </section>
 
 <section style="padding: 2em 1em; display: flex; justify-content: center; align-items: center;">
-  <div style="width: 100%; max-width: 1100px; border: 2px solid #d4af37; border-radius: 4px; background-image: url('https://www.transparenttextures.com/patterns/arabesque.png'); background-color: #fff; padding: 1em 2em; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1em;">
+  <div style="width: 100%; max-width: 1200px; border: 2px solid #d4af37; border-radius: 4px; background-image: url('https://www.transparenttextures.com/patterns/arabesque.png'); background-color: #fff; padding: 1em 2em; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1em;">
     <div style="flex: 1 1 250px; min-width: 240px;">
       <div style="font-size: 13px; color: #000; font-weight: bold;">Jadwal Shalat</div>
       <div style="font-size: 24px; font-weight: bold; color: #000; margin: 4px 0;">Di KAB. MALANG</div>
@@ -325,14 +347,13 @@
     </div>
   </div>
 </section>
-</section> <!-- Penutup section pengumuman -->
 
-<section id="welcome-section" class="py-5">
-  <div class="container">
-    <h3 id="selamat-judul" class="mb-3 text-center fw-bold">Selamat Datang</h3>
-    <div id="selamat-isi" class="fs-5 text-justify"></div>
-  </div>
+<section id="welcome-section" style="max-width: 1200px; margin: 10px auto 0; padding: 0 1.5rem;">
+  <h2 id="selamat-judul" style="font-size: 35px; font-weight: bold; margin-bottom: 0.5em; text-align: left;">Selamat Datang</h2>
+  <div id="selamat-isi" style="text-align: justify; font-size: 17px; line-height: 1.6;"></div>
 </section>
+
+
 
 <script>
 fetch("data/beranda.json")
