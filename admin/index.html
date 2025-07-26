@@ -216,8 +216,8 @@
     async function loadBeranda() {
       const token = document.getElementById("githubToken").value;
       const path = document.getElementById("berandaPath").value;
-      const username = "USERNAME_KAMU"; // Ganti ini
-      const repo = "REPO_KAMU"; // Ganti ini
+      const username = "segalor"; // Ganti ini
+      const repo = "Masjid_Baiturrahman"; // Ganti ini
       const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
 
       const res = await fetch(apiUrl, {
@@ -237,7 +237,7 @@
       const token = document.getElementById("githubToken").value;
       const path = document.getElementById("berandaPath").value;
       const content = document.getElementById("berandaContent").value;
-      const username = "Segalor"; // Ganti ini
+      const username = "segalor"; // Ganti ini
       const repo = "Masjid_Baiturrahman"; // Ganti ini
       const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
 
