@@ -303,11 +303,10 @@
     }
   </script>
 
-
 <script src="https://cdn.ckeditor.com/4.25.1-lts/standard/ckeditor.js"></script>
 <script>
   CKEDITOR.replace('isi', {
-    height: 600,
+    height: 00,
     toolbar: [
       { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline' ] },
       { name: 'styles', items: [ 'FontSize', 'Font', 'Format' ] },
@@ -321,84 +320,67 @@
   });
 </script>
 
-<!-- Tempel script fetch JSON di sini -->
-<script>
-  fetch("https://raw.githubusercontent.com/Segalor/Masjid_Baiturrahman/main/data/selamat_datang.json")
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("judul").value = data.judul || "";
-      document.getElementById("tampilkan").value = data.tampilkan || "";
-
-      if (window.nicEditors && nicEditors.editors.length > 0) {
-        nicEditors.findEditor("isi").setContent(data.isi || "");
-      } else {
-        document.getElementById("isi").value = data.isi || "";
-      }
-    })
-    .catch(err => console.error("Gagal ambil data JSON:", err));
-</script>
-<script>
-  fetch("https://raw.githubusercontent.com/Segalor/Masjid_Baiturrahman/main/data/selamat_datang.json")
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("judul").value = data.judul || "";
-      document.getElementById("tampilkan").value = data.tampilkan || "";
-      if (window.CKEDITOR && CKEDITOR.instances['isi']) {
-        CKEDITOR.instances['isi'].setData(data.isi || "");
-      }
-    })
-    .catch(err => console.error("Gagal ambil data JSON:", err));
-
-  function simpanKeGitHub() {
-    const token = prompt("Masukkan Personal Access Token GitHub kamu:");
-    if (!token) return alert("❌ Token dibutuhkan");
-
-    const repo = "Segalor/Masjid_Baiturrahman";
-    const path = "data/selamat_datang.json";
-    const branch = "main";
-    const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
-
-    fetch(apiUrl)
+ <script>
+    // Ambil data dari GitHub JSON
+    fetch("https://raw.githubusercontent.com/Segalor/Masjid_Baiturrahman/main/data/selamat_datang.json")
       .then(res => res.json())
-      .then(file => {
-        const content = {
-          judul: document.getElementById("judul").value,
-          isi: CKEDITOR.instances['isi'].getData(),
-          tampilkan: document.getElementById("tampilkan").value
-        };
+      .then(data => {
+        document.getElementById("judul").value = data.judul || "";
+        document.getElementById("isi").value = data.isi || "";
+        document.getElementById("tampilkan").value = data.tampilkan || "ya";
+      })
+      .catch(err => console.error("Gagal ambil data JSON:", err));
 
-        const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(content))));
+    // Fungsi Simpan
+    function simpanKeGitHub() {
+      const token = prompt("Masukkan Personal Access Token GitHub kamu:");
+      if (!token) return alert("❌ Token dibutuhkan");
 
-        fetch(apiUrl, {
-          method: "PUT",
-          headers: {
-            "Authorization": `token ${token}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            message: "Update dari panel admin",
-            content: encoded,
-            sha: file.sha,
-            branch: branch
-          })
-        })
+      const repo = "Segalor/Masjid_Baiturrahman";
+      const path = "data/selamat_datang.json";
+      const branch = "main";
+      const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
+
+      fetch(apiUrl)
         .then(res => res.json())
-        .then(result => {
-          if (result.commit) {
-            alert("✅ Berhasil disimpan ke GitHub!");
-          } else {
-            alert("⚠️ Gagal menyimpan. Cek token & repo.");
-            console.log(result);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          alert("❌ Error saat menyimpan.");
+        .then(file => {
+          const content = {
+            judul: document.getElementById("judul").value,
+            isi: document.getElementById("isi").value,
+            tampilkan: document.getElementById("tampilkan").value
+          };
+
+          const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(content))));
+
+          fetch(apiUrl, {
+            method: "PUT",
+            headers: {
+              "Authorization": `token ${token}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              message: "Update dari panel admin",
+              content: encoded,
+              sha: file.sha,
+              branch: branch
+            })
+          })
+          .then(res => res.json())
+          .then(result => {
+            if (result.commit) {
+              alert("✅ Berhasil disimpan ke GitHub!");
+            } else {
+              alert("⚠️ Gagal menyimpan. Cek token & repo.");
+              console.log(result);
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            alert("❌ Error saat menyimpan.");
+          });
         });
-      });
-  }
-</script>
+    }
+  </script>
 
 </body>
 </html>
-
