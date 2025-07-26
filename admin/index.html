@@ -335,6 +335,28 @@
     resize_enabled: false
   });
 </script>
+<!-- SCRIPT LAIN -->
+<!-- Form, footer, dsb -->
+
+<!-- Tempel script fetch JSON di sini -->
+<script>
+  fetch("https://raw.githubusercontent.com/Segalor/Masjid_Baiturrahman/main/data/selamat_datang.json")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("judul").value = data.judul || "";
+      document.getElementById("tampilkan").value = data.tampilkan || "";
+
+      if (window.nicEditors && nicEditors.editors.length > 0) {
+        nicEditors.findEditor("isi").setContent(data.isi || "");
+      } else {
+        document.getElementById("isi").value = data.isi || "";
+      }
+    })
+    .catch(err => console.error("Gagal ambil data JSON:", err));
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
