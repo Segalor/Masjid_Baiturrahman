@@ -43,7 +43,7 @@
       padding: 1.4em 2em;
       position: relative;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
     }
     .nav-container > div, .nav-container > a {
       position: relative;
@@ -149,7 +149,7 @@
     }
     .gallery-slider {
       display: flex;
-      gap: 15px;
+      gap: 30px;
       overflow-x: auto;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
@@ -164,7 +164,7 @@
       height: 220px;
       object-fit: cover;
       border-radius: 8px;
-      transition: transform 0.3s;
+      transition: transform 0.0s;
       user-select: none;
       -webkit-user-drag: none;
     }
@@ -214,11 +214,7 @@
       <a id="adminLogin">Login Admin</a>
     </div>
   </div>
-       <section id="pengumumanSection" style="padding: 2em; max-width: 900px; margin: auto; position: relative;">
-    <h2 style="text-align: center;">📢 Pengumuman</h2>
-    <button onclick="tutupPengumuman()" style="position: absolute; top: 10px; right: 10px; background-color: #ccc; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Tutup</button>
-    <ul id="list-pengumuman" style="list-style: none; padding: 0;"></ul>
-  </section>
+       
 
       <section id="kontenHalaman" style="padding: 2em; max-width: 900px; margin: auto; display: none;">
     <h2 id="judulHalaman" style="text-align: center;"></h2>
@@ -249,9 +245,7 @@
   <div class="dropdown-content">
     <a href="profil.html">Profil Masjid</a>
     <a href="sejarah.html">Sejarah</a>
-	<a href="pengurus.html">Pengurus</a>
-    
-    
+	<a href="pengurus.html">Pengurus</a>   
   </div>
 </div>
 
@@ -281,7 +275,7 @@
   <div class="gallery-wrapper">
      <button class="arrow-btn arrow-right" onclick="scrollGallery(-1)">&#10095;</button>
     <button class="arrow-btn arrow-left" onclick="scrollGallery(1)">&#10094;</button>
-
+  
     <div class="gallery-slider" id="gallerySlider">
       <img src="foto1.jpg" alt="Foto 1">
       <img src="foto2.jpg" alt="Foto 2">
@@ -291,6 +285,11 @@
       <img src="foto6.jpg" alt="Foto 6">
     </div>
   </div>
+  <section id="pengumumanSection" style="padding: 2em; max-width: 900px; margin: auto; position: relative;">
+    <h2 style="text-align: center;">📢 Pengumuman</h2>
+    <button onclick="tutupPengumuman()" style="position: absolute; top: 10px; right: 10px; background-color: #ccc; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Tutup</button>
+    <ul id="list-pengumuman" style="list-style: none; padding: 0;"></ul>
+  </section>
 
   <section style="padding: 2em 1em; display: flex; justify-content: center; align-items: center; min-height: 260px;">
     <div style="width: 100%; max-width: 1200px; border: 2px solid #d4af37; border-radius: 8px; padding: 1.2em; background-image: url('https://www.transparenttextures.com/patterns/arabesque.png'); background-color: #fff; text-align: center;">
