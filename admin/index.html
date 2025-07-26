@@ -147,8 +147,8 @@
     </div>
 
     <div id="beranda" class="tab">
-      <h2 class="mb-4">Slider</h2>
-      <ul class="nav nav-tabs mb-3" id="sliderTab" role="tablist">
+     <h2 id="judul-panel" class="mb-4">Slider</h2>
+<ul class="nav nav-tabs mb-3" id="sliderTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="slider-tab" data-bs-toggle="tab" data-bs-target="#slider" type="button" role="tab">Slider</button>
         </li>
@@ -209,7 +209,7 @@
         <div class="tab-pane fade" id="jadwal" role="tabpanel">Belum ada konten Jadwal Shalat.</div>
         
 <div class="tab-pane fade" id="welcome" role="tabpanel">
-  <h4 class="mb-4">Ubah Selamat Datang</h4>
+  
   <div class="card">
     <div class="card-body">
       <form onsubmit="event.preventDefault(); simpanKeGitHub();" enctype="multipart/form-data">
@@ -381,6 +381,32 @@
         });
     }
   </script>
+<script>
+  const judulMap = {
+    'slider': 'Slider',
+    'jadwal': 'Jadwal Shalat',
+    'welcome': 'Ubah Selamat Datang',
+    'cta': 'Call To Action',
+    'toggle': 'Tampilkan / Sembunyikan'
+  };
+
+  function updateJudulPanel(tabId) {
+    const el = document.getElementById("judul-panel");
+    if (el && judulMap[tabId]) el.textContent = judulMap[tabId];
+  }
+
+  // Jalankan saat tab-tab Bootstrap diklik
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabList = document.querySelectorAll('#sliderTab button[data-bs-toggle="tab"]');
+    tabList.forEach(tab => {
+      tab.addEventListener('shown.bs.tab', function (event) {
+        const targetId = event.target.getAttribute('data-bs-target').substring(1); // misal "#welcome" => "welcome"
+        updateJudulPanel(targetId);
+      });
+    });
+  });
+</script>
+
 
 </body>
 </html>
