@@ -66,17 +66,21 @@ function simpanHTML() {
         })
       });
     })
-    .then(res => {
-      if (!res.ok) {
-        return res.text().then(text => {
-          console.error("Gagal menyimpan. Status:", res.status, "Response:", text);
-          throw new Error("❌ Gagal menyimpan perubahan.");
-        });
-      }
-      document.getElementById("statusHTML").textContent = "✅ Perubahan berhasil disimpan!";
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById("statusHTML").textContent = "❌ Gagal menyimpan perubahan.";
+   .then(res => {
+  if (!res.ok) {
+    return res.text().then(text => {
+      console.error("Gagal menyimpan. Status:", res.status, "Response:", text);
+      throw new Error("❌ Gagal menyimpan perubahan.");
     });
+  }
+  return res.json(); // hanya jika respon benar-benar JSON
+})
+.then(() => {
+  document.getElementById("statusHTML").textContent = "✅ Perubahan berhasil disimpan!";
+})
+.catch(err => {
+  console.error(err);
+  document.getElementById("statusHTML").textContent = "❌ Gagal menyimpan perubahan.";
+});
+
 }
