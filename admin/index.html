@@ -6,98 +6,162 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Panel Admin Masjid</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
       background-color: #f4f6f9;
-      color: #333;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
     }
-    header {
-      background-color: #007BFF;
+    .sidebar {
+      width: 220px;
+      background-color: #1e293b;
       color: white;
-      padding: 1.2em 2em;
-      text-align: center;
-      font-size: 1.5em;
-      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      padding: 1em;
     }
-    .container {
-      max-width: 800px;
-      margin: 2em auto;
-      background-color: white;
+    .sidebar h2 {
+      font-size: 1.2em;
+      margin-bottom: 1.5em;
+      text-align: center;
+      color: #38bdf8;
+    }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      padding: 0.8em;
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    .sidebar a:hover {
+      background-color: #334155;
+    }
+    .sidebar a i {
+      margin-right: 10px;
+    }
+    .content {
+      flex: 1;
       padding: 2em;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      overflow-y: auto;
+    }
+    .tab {
+      display: none;
+    }
+    .tab.active {
+      display: block;
     }
     label {
       display: block;
-      margin: 1em 0 0.3em;
+      margin-top: 1em;
       font-weight: 600;
     }
-    input[type="text"],
-    input[type="password"],
-    textarea {
+    input[type="text"], input[type="password"], textarea {
       width: 100%;
       padding: 10px;
+      margin-top: 0.3em;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
-      margin-bottom: 1em;
       box-sizing: border-box;
     }
     textarea {
-      min-height: 250px;
+      min-height: 200px;
       resize: vertical;
     }
     button {
+      margin-top: 1em;
       background-color: #007BFF;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 10px 16px;
       font-size: 14px;
       border-radius: 6px;
       cursor: pointer;
-      margin-right: 10px;
     }
     button:hover {
       background-color: #0056b3;
     }
     hr {
       margin: 2em 0;
-      border: 0;
-      border-top: 1px solid #eee;
+      border: none;
+      border-top: 1px solid #ddd;
     }
     code {
-      background: #f1f1f1;
+      background-color: #eef;
       padding: 2px 6px;
       border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <header>🛠️ Panel Admin Masjid</header>
-  <div class="container">
-    <label for="token">GitHub Token:</label>
-    <input type="password" id="token" placeholder="Masukkan token GitHub...">
-    <button onclick="saveToken()">Simpan Token</button>
 
-    <hr />
-
-    <label for="filePath">Pilih File yang Ingin Diedit:</label>
-    <input type="text" id="filePath" placeholder="Contoh: index.html, data/pengumuman.json">
-    <button onclick="loadFile()">Muat File</button>
-
-    <label for="fileContent">Isi File:</label>
-    <textarea id="fileContent" placeholder="Konten file akan tampil di sini..."></textarea>
-    <button onclick="saveFile()">Simpan ke GitHub</button>
-
-    <hr />
-
-    <h3>Upload Gambar ke Folder <code>img/</code></h3>
-    <input type="file" id="uploadInput">
-    <button onclick="uploadImage()">Upload Gambar</button>
+  <div class="sidebar">
+    <h2><i class="fas fa-mosque"></i> Admin Masjid</h2>
+    <a href="#" onclick="showTab('dashboard')"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="#" onclick="showTab('edit')"><i class="fas fa-file-alt"></i> Edit Konten</a>
+    <a href="#" onclick="showTab('upload')"><i class="fas fa-image"></i> Upload Gambar</a>
+    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
 
-  <script src="script.js"></script>
+  <div class="content">
+    <div id="dashboard" class="tab active">
+      <h2>Selamat datang di Panel Admin</h2>
+      <p>Silakan pilih menu di sebelah kiri untuk mengelola konten website masjid.</p>
+    </div>
+
+    <div id="edit" class="tab">
+      <h2>Edit File Website</h2>
+      <label for="token">GitHub Token:</label>
+      <input type="password" id="token" placeholder="Masukkan token GitHub...">
+      <button onclick="saveToken()">Simpan Token</button>
+
+      <label for="filePath">Pilih File yang Ingin Diedit:</label>
+      <input type="text" id="filePath" placeholder="Contoh: index.html, data/pengumuman.json">
+      <button onclick="loadFile()">Muat File</button>
+
+      <label for="fileContent">Isi File:</label>
+      <textarea id="fileContent" placeholder="Konten file akan tampil di sini..."></textarea>
+      <button onclick="saveFile()">Simpan ke GitHub</button>
+    </div>
+
+    <div id="upload" class="tab">
+      <h2>Upload Gambar</h2>
+      <p>File gambar akan diunggah ke folder <code>img/</code>.</p>
+      <input type="file" id="uploadInput">
+      <button onclick="uploadImage()">Upload Gambar</button>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
+    function logout() {
+      alert("Anda telah logout.");
+      // Tambahkan redirect atau penghapusan token di sini jika perlu
+    }
+    // Fungsi-fungsi berikut diasumsikan sudah tersedia di script.js
+    function saveToken() {
+      const token = document.getElementById("token").value;
+      alert("Token disimpan (dummy): " + token);
+    }
+    function loadFile() {
+      const file = document.getElementById("filePath").value;
+      alert("Muat file (dummy): " + file);
+    }
+    function saveFile() {
+      alert("File disimpan (dummy)");
+    }
+    function uploadImage() {
+      alert("Gambar diunggah (dummy)");
+    }
+  </script>
 </body>
 </html>
