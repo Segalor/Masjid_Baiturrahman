@@ -1,45 +1,82 @@
-const token = "ghp_xxxxxx"; // GANTI dengan GitHub Token milikmu
-const username = "Segalor";
-const repo = "Masjid_Baiturrahman";
-const branch = "main";
-
-async function muatHTML() {
-  const file = document.getElementById("fileHTML").value;
-  const res = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
-    headers: {
-      Authorization: `token ${token}`
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel Masjid</title>
+  <style>
+    body {
+      font-family: Consolas, monospace;
+      margin: 0;
+      background: #fff;
     }
-  });
-  const data = await res.json();
-  const content = atob(data.content.replace(/\n/g, ""));
-  document.getElementById("editorHTML").value = content;
-  document.getElementById("editorHTML").dataset.sha = data.sha;
-  document.getElementById("statusHTML").textContent = "✅ Berhasil membuka " + file;
-}
+    .admin-header {
+      background-color: #f0f0f0;
+      padding: 1em 2em;
+      border-bottom: 1px solid #ddd;
+    }
+    .admin-header h2 {
+      margin: 0;
+      font-size: 1.5em;
+      color: #333;
+    }
+    .admin-container {
+      max-width: 960px;
+      margin: 2em auto;
+      padding: 1em;
+    }
+    textarea {
+      width: 100%;
+      height: 400px;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    select, button {
+      font-size: 14px;
+      padding: 0.4em 0.8em;
+      margin-top: 1em;
+      margin-right: 10px;
+    }
+    button {
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #statusHTML {
+      margin-top: 1em;
+      font-size: 0.9em;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-header">
+    <h2>🛠️ Admin Panel Masjid Baiturrahman</h2>
+  </div>
 
-async function simpanHTML() {
-  const file = document.getElementById("fileHTML").value;
-  const isi = document.getElementById("editorHTML").value;
-  const sha = document.getElementById("editorHTML").dataset.sha;
+  <div class="admin-container">
+    <label for="fileHTML">Pilih File:</label>
+    <select id="fileHTML">
+      <option value="index.html">index.html</option>
+      <option value="profil.html">profil.html</option>
+      <option value="artikel.html">artikel.html</option>
+      <option value="galeri.html">galeri.html</option>
+    </select>
+    <button onclick="muatHTML()">📂 Buka</button>
 
-  const res = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `token ${token}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      message: `Update file ${file} via admin panel`,
-      content: btoa(unescape(encodeURIComponent(isi))),
-      sha: sha,
-      branch: branch
-    })
-  });
+    <textarea id="editorHTML" placeholder="Konten HTML akan muncul di sini..."></textarea>
 
-  if (res.ok) {
-    document.getElementById("statusHTML").textContent = "✅ Berhasil disimpan ke " + file;
-    muatHTML(); // refresh SHA baru
-  } else {
-    document.getElementById("statusHTML").textContent = "❌ Gagal menyimpan. Cek token dan izin repo.";
-  }
-}
+    <br>
+    <button onclick="simpanHTML()">💾 Simpan Perubahan</button>
+    <p id="statusHTML"></p>
+  </div>
+
+  <script src="editor.js"></script>
+</body>
+</html>
