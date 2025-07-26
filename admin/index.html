@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Panel Admin Masjid</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
+      font-size: 14px;
       background-color: #f4f6f9;
       display: flex;
       height: 100vh;
@@ -41,9 +42,10 @@
       position: fixed;
       height: 100vh;
       z-index: 998;
+      font-size: 13px;
     }
     .sidebar h2 {
-      font-size: 1.2em;
+      font-size: 1em;
       margin-bottom: 1em;
       text-align: center;
       color: #38bdf8;
@@ -52,7 +54,9 @@
       color: white;
       text-decoration: none;
       padding: 0.6em;
-      display: block;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-radius: 4px;
       transition: background 0.3s;
       cursor: pointer;
@@ -62,12 +66,22 @@
     }
     .submenu {
       display: none;
-      padding-left: 15px;
+      padding-left: 20px;
       font-size: 0.9em;
+      background-color: #475569;
+      border-radius: 4px;
+      margin: 4px 0;
     }
     .submenu a {
-      padding: 0.4em;
+      padding: 0.5em 0.6em;
       display: block;
+    }
+    .sidebar .section-label {
+      font-size: 0.75em;
+      color: #94a3b8;
+      padding: 0.4em 0.6em;
+      margin-top: 1em;
+      text-transform: uppercase;
     }
     .content {
       flex: 1;
@@ -103,16 +117,19 @@
   <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
   <div class="sidebar" id="sidebar">
     <h2><i class="fas fa-mosque"></i> Admin Masjid</h2>
+    <div class="menu-item" onclick="showTab('dasbor')">Dasbor</div>
+    <hr style="border-color:#475569; margin: 0.5em 0;">
+    <div class="section-label">Manajemen Konten</div>
     <div class="menu-item" onclick="showTab('beranda')">Beranda</div>
 
-    <div class="menu-item" onclick="toggleSubmenu(this)">Profil</div>
+    <div class="menu-item" onclick="toggleSubmenu(this)">Profil <i class="fas fa-chevron-right"></i></div>
     <div class="submenu">
       <a onclick="showTab('profil-masjid')">Profil Masjid</a>
       <a onclick="showTab('sejarah')">Sejarah Masjid</a>
       <a onclick="showTab('pengurus')">Pengurus</a>
     </div>
 
-    <div class="menu-item" onclick="toggleSubmenu(this)">Program</div>
+    <div class="menu-item" onclick="toggleSubmenu(this)">Program <i class="fas fa-chevron-right"></i></div>
     <div class="submenu">
       <a onclick="showTab('keagamaan')">Keagamaan & Dakwah</a>
       <a onclick="showTab('ekonomi')">Ekonomi & Sosial</a>
@@ -122,7 +139,7 @@
     <div class="menu-item" onclick="showTab('berita')">Berita</div>
     <div class="menu-item" onclick="showTab('artikel')">Artikel</div>
 
-    <div class="menu-item" onclick="toggleSubmenu(this)">Galeri</div>
+    <div class="menu-item" onclick="toggleSubmenu(this)">Galeri <i class="fas fa-chevron-right"></i></div>
     <div class="submenu">
       <a onclick="showTab('foto')">Foto</a>
       <a onclick="showTab('video')">Video</a>
@@ -132,16 +149,18 @@
     <div class="menu-item" onclick="showTab('laporan')">Laporan</div>
     <div class="menu-item" onclick="showTab('kontak')">Kontak</div>
 
-    <hr style="border-color: #7f8c8d">
+    <hr style="border-color:#475569; margin: 0.8em 0;">
     <div class="menu-item" onclick="showTab('pengaturan')">Pengaturan</div>
+    <hr style="border-color:#475569; margin: 0.8em 0 auto;">
     <div class="menu-item" onclick="window.location.href='/'">← Kembali ke Website Masjid</div>
   </div>
 
   <div class="content">
-    <div id="beranda" class="tab active">
-      <h2>Beranda Admin</h2>
-      <p>Selamat datang. Pilih menu untuk mulai mengelola.</p>
+    <div id="dasbor" class="tab active">
+      <h2>Dasbor</h2>
+      <p>Selamat datang di Panel Admin Masjid. Silakan pilih menu di samping untuk mulai mengelola konten website masjid.</p>
     </div>
+    <div id="beranda" class="tab"><h2>Beranda</h2></div>
     <div id="profil-masjid" class="tab"><h2>Profil Masjid</h2></div>
     <div id="sejarah" class="tab"><h2>Sejarah Masjid</h2></div>
     <div id="pengurus" class="tab"><h2>Pengurus</h2></div>
@@ -168,11 +187,17 @@
       if (window.innerWidth < 768) toggleSidebar();
     }
     function toggleSubmenu(element) {
-      let submenu = element.nextElementSibling;
-      document.querySelectorAll('.submenu').forEach(s => {
-        if (s !== submenu) s.style.display = 'none';
-      });
-      submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+      const icon = element.querySelector('i');
+      const submenu = element.nextElementSibling;
+      const isOpen = submenu.style.display === 'block';
+
+      document.querySelectorAll('.submenu').forEach(s => s.style.display = 'none');
+      document.querySelectorAll('.menu-item i').forEach(i => i.className = 'fas fa-chevron-right');
+
+      if (!isOpen) {
+        submenu.style.display = 'block';
+        if (icon) icon.className = 'fas fa-chevron-down';
+      }
     }
   </script>
 </body>
