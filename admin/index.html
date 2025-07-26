@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,6 +7,7 @@
   <title>Panel Admin Masjid</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -96,20 +98,9 @@
     .tab.active {
       display: block;
     }
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-      .sidebar.active {
-        transform: translateX(0);
-      }
-      .toggle-btn {
-        display: block;
-      }
-      .content {
-        margin-left: 0;
-        padding-top: 70px;
-      }
+    .table img {
+      height: 50px;
+      width: auto;
     }
   </style>
 </head>
@@ -121,34 +112,28 @@
     <hr style="border-color:#475569; margin: 0.5em 0;">
     <div class="section-label">Manajemen Konten</div>
     <div class="menu-item" onclick="showTab('beranda')">Beranda</div>
-
     <div class="menu-item" onclick="toggleSubmenu(this)">Profil <i class="fas fa-chevron-right"></i></div>
     <div class="submenu">
       <a onclick="showTab('profil-masjid')">Profil Masjid</a>
       <a onclick="showTab('sejarah')">Sejarah Masjid</a>
       <a onclick="showTab('pengurus')">Pengurus</a>
     </div>
-
     <div class="menu-item" onclick="toggleSubmenu(this)">Program <i class="fas fa-chevron-right"></i></div>
     <div class="submenu">
       <a onclick="showTab('keagamaan')">Keagamaan & Dakwah</a>
       <a onclick="showTab('ekonomi')">Ekonomi & Sosial</a>
       <a onclick="showTab('sarana')">Sarana & Prasarana</a>
     </div>
-
     <div class="menu-item" onclick="showTab('berita')">Berita</div>
     <div class="menu-item" onclick="showTab('artikel')">Artikel</div>
-
     <div class="menu-item" onclick="toggleSubmenu(this)">Galeri <i class="fas fa-chevron-right"></i></div>
     <div class="submenu">
       <a onclick="showTab('foto')">Foto</a>
       <a onclick="showTab('video')">Video</a>
     </div>
-
     <div class="menu-item" onclick="showTab('donasi')">Donasi</div>
     <div class="menu-item" onclick="showTab('laporan')">Laporan</div>
     <div class="menu-item" onclick="showTab('kontak')">Kontak</div>
-
     <hr style="border-color:#475569; margin: 0.8em 0;">
     <div class="menu-item" onclick="showTab('pengaturan')">Pengaturan</div>
     <hr style="border-color:#475569; margin: 0.8em 0 auto;">
@@ -162,16 +147,70 @@
     </div>
 
     <div id="beranda" class="tab">
-      <h2>Beranda</h2>
-      <label for="githubToken">GitHub Token:</label>
-      <input type="password" id="githubToken" placeholder="Masukkan token GitHub kamu">
-      <label for="berandaPath">Nama File (misal: data/beranda.json):</label>
-      <input type="text" id="berandaPath" value="data/beranda.json">
-      <button onclick="loadBeranda()">Muat dari GitHub</button>
-
-      <label for="berandaContent">Konten Beranda:</label>
-      <textarea id="berandaContent" placeholder="Konten beranda akan tampil di sini..." rows="10"></textarea>
-      <button onclick="saveBeranda()">Simpan ke GitHub</button>
+      <h2 class="mb-4">Slider</h2>
+      <ul class="nav nav-tabs mb-3" id="sliderTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="slider-tab" data-bs-toggle="tab" data-bs-target="#slider" type="button" role="tab">Slider</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="jadwal-tab" data-bs-toggle="tab" data-bs-target="#jadwal" type="button" role="tab">Jadwal Shalat</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="welcome-tab" data-bs-toggle="tab" data-bs-target="#welcome" type="button" role="tab">Selamat Datang</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="cta-tab" data-bs-toggle="tab" data-bs-target="#cta" type="button" role="tab">Call To Action</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="toggle-tab" data-bs-toggle="tab" data-bs-target="#toggle" type="button" role="tab">Tampilkan / Sembunyikan</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="slider" role="tabpanel">
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>NO</th>
+                  <th>GAMBAR</th>
+                  <th>NAMA</th>
+                  <th>URUTAN</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td><img src="https://via.placeholder.com/100x60?text=Slider1" alt="Slider 1"></td>
+                  <td></td>
+                  <td>3</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td><img src="https://via.placeholder.com/100x60?text=Slider2" alt="Slider 2"></td>
+                  <td>Tampak Depan</td>
+                  <td>1</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-success mt-2"><i class="fas fa-plus"></i> Tambah</button>
+        </div>
+        <div class="tab-pane fade" id="jadwal" role="tabpanel">Belum ada konten Jadwal Shalat.</div>
+        <div class="tab-pane fade" id="welcome" role="tabpanel">Belum ada konten Selamat Datang.</div>
+        <div class="tab-pane fade" id="cta" role="tabpanel">Belum ada konten Call To Action.</div>
+        <div class="tab-pane fade" id="toggle" role="tabpanel">Belum ada konten Tampilkan/Sembunyikan.</div>
+      </div>
     </div>
 
     <div id="profil-masjid" class="tab"><h2>Profil Masjid</h2></div>
@@ -190,6 +229,7 @@
     <div id="pengaturan" class="tab"><h2>Pengaturan</h2></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     function toggleSidebar() {
       document.getElementById("sidebar").classList.toggle("active");
@@ -203,67 +243,11 @@
       const icon = element.querySelector('i');
       const submenu = element.nextElementSibling;
       const isOpen = submenu.style.display === 'block';
-
       document.querySelectorAll('.submenu').forEach(s => s.style.display = 'none');
       document.querySelectorAll('.menu-item i').forEach(i => i.className = 'fas fa-chevron-right');
-
       if (!isOpen) {
         submenu.style.display = 'block';
         if (icon) icon.className = 'fas fa-chevron-down';
-      }
-    }
-
-    async function loadBeranda() {
-      const token = document.getElementById("githubToken").value;
-      const path = document.getElementById("berandaPath").value;
-      const username = "segalor"; // Ganti ini
-      const repo = "Masjid_Baiturrahman"; // Ganti ini
-      const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-
-      const res = await fetch(apiUrl, {
-        headers: { Authorization: `token ${token}` }
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const content = atob(data.content);
-        document.getElementById("berandaContent").value = content;
-      } else {
-        alert("Gagal memuat konten dari GitHub.");
-      }
-    }
-
-    async function saveBeranda() {
-      const token = document.getElementById("githubToken").value;
-      const path = document.getElementById("berandaPath").value;
-      const content = document.getElementById("berandaContent").value;
-      const username = "segalor"; // Ganti ini
-      const repo = "Masjid_Baiturrahman"; // Ganti ini
-      const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-
-      const getRes = await fetch(apiUrl, {
-        headers: { Authorization: `token ${token}` }
-      });
-      const fileData = await getRes.json();
-      const sha = fileData.sha;
-
-      const res = await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github.v3+json"
-        },
-        body: JSON.stringify({
-          message: "Update konten beranda dari admin panel",
-          content: btoa(content),
-          sha: sha
-        })
-      });
-
-      if (res.ok) {
-        alert("Berhasil menyimpan konten ke GitHub!");
-      } else {
-        alert("Gagal menyimpan ke GitHub.");
       }
     }
   </script>
