@@ -31,7 +31,7 @@
       cursor: pointer;
     }
     .sidebar {
-      width: 200px;
+      width: 250px;
       background-color: #1e293b;
       color: white;
       display: flex;
@@ -160,7 +160,20 @@
       <h2 style="font-size: 1.5em;">Dasbor</h2>
       <p>Selamat datang di Panel Admin Masjid. Silakan pilih menu di samping untuk mulai mengelola konten website masjid.</p>
     </div>
-    <div id="beranda" class="tab"><h2>Beranda</h2></div>
+
+    <div id="beranda" class="tab">
+      <h2>Beranda</h2>
+      <label for="githubToken">GitHub Token:</label>
+      <input type="password" id="githubToken" placeholder="Masukkan token GitHub kamu">
+      <label for="berandaPath">Nama File (misal: data/beranda.json):</label>
+      <input type="text" id="berandaPath" value="data/beranda.json">
+      <button onclick="loadBeranda()">Muat dari GitHub</button>
+
+      <label for="berandaContent">Konten Beranda:</label>
+      <textarea id="berandaContent" placeholder="Konten beranda akan tampil di sini..." rows="10"></textarea>
+      <button onclick="saveBeranda()">Simpan ke GitHub</button>
+    </div>
+
     <div id="profil-masjid" class="tab"><h2>Profil Masjid</h2></div>
     <div id="sejarah" class="tab"><h2>Sejarah Masjid</h2></div>
     <div id="pengurus" class="tab"><h2>Pengurus</h2></div>
@@ -197,6 +210,60 @@
       if (!isOpen) {
         submenu.style.display = 'block';
         if (icon) icon.className = 'fas fa-chevron-down';
+      }
+    }
+
+    async function loadBeranda() {
+      const token = document.getElementById("githubToken").value;
+      const path = document.getElementById("berandaPath").value;
+      const username = "USERNAME_KAMU"; // Ganti ini
+      const repo = "REPO_KAMU"; // Ganti ini
+      const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+
+      const res = await fetch(apiUrl, {
+        headers: { Authorization: `token ${token}` }
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const content = atob(data.content);
+        document.getElementById("berandaContent").value = content;
+      } else {
+        alert("Gagal memuat konten dari GitHub.");
+      }
+    }
+
+    async function saveBeranda() {
+      const token = document.getElementById("githubToken").value;
+      const path = document.getElementById("berandaPath").value;
+      const content = document.getElementById("berandaContent").value;
+      const username = "USERNAME_KAMU"; // Ganti ini
+      const repo = "REPO_KAMU"; // Ganti ini
+      const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+
+      const getRes = await fetch(apiUrl, {
+        headers: { Authorization: `token ${token}` }
+      });
+      const fileData = await getRes.json();
+      const sha = fileData.sha;
+
+      const res = await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json"
+        },
+        body: JSON.stringify({
+          message: "Update konten beranda dari admin panel",
+          content: btoa(content),
+          sha: sha
+        })
+      });
+
+      if (res.ok) {
+        alert("Berhasil menyimpan konten ke GitHub!");
+      } else {
+        alert("Gagal menyimpan ke GitHub.");
       }
     }
   </script>
