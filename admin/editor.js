@@ -1,86 +1,45 @@
-const halaman = document.getElementById("halaman");
-const judul = document.getElementById("judul");
-const isi = document.getElementById("isi");
-const status = document.getElementById("status");
+const token = "ghp_xxxxxx"; // GANTI dengan GitHub Token milikmu
+const username = "Segalor";
+const repo = "Masjid_Baiturrahman";
+const branch = "main";
 
-const GITHUB_TOKEN = localStorage.getItem("github_token") || "";
-const USERNAME = "Segalor";
-const REPO = "Masjid_Baiturrahman";
-const BRANCH = "main";
-
-halaman.addEventListener("change", muatKonten);
-window.addEventListener("load", muatKonten);
-
-function muatKonten() {
-  const namaFile = halaman.value;
-  fetch(`../data/${namaFile}.json`)
-    .then(res => res.json())
-    .then(data => {
-      judul.value = data.judul || "";
-      isi.value = data.isi || "";
-      status.textContent = "✅ Konten berhasil dimuat.";
-    })
-    .catch(() => {
-      status.textContent = "❌ Gagal memuat konten.";
-    });
-}
-
-function encodeToBase64(str) {
-  return btoa(unescape(encodeURIComponent(str)));
-}
-
-async function simpanKonten() {
-  const fileName = halaman.value + ".json";
-  const path = `data/${fileName}`;
-  const newContent = {
-    judul: judul.value.trim(),
-    isi: isi.value.trim()
-  };
-  const message = `Update ${fileName} dari Admin Panel`;
-
-  if (!GITHUB_TOKEN) {
-    const token = prompt("Masukkan GitHub Token:");
-    if (!token) return alert("Token dibutuhkan.");
-    localStorage.setItem("github_token", token);
-    location.reload();
-    return;
-  }
-
-  const getUrl = `https://api.github.com/repos/${USERNAME}/${REPO}/contents/${path}`;
-  const headers = {
-    "Authorization": `Bearer ${localStorage.getItem("github_token")}`,
-    "Accept": "application/vnd.github+json"
-  };
-
-  try {
-    const getRes = await fetch(getUrl, { headers });
-    const fileData = await getRes.json();
-
-    const payload = {
-      message,
-      content: encodeToBase64(JSON.stringify(newContent, null, 2)),
-      sha: fileData.sha,
-      branch: BRANCH
-    };
-
-    const putRes = await fetch(getUrl, {
-      method: "PUT",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (putRes.ok) {
-      status.textContent = "✅ Berhasil disimpan ke GitHub!";
-    } else {
-      const err = await putRes.json();
-      throw new Error(err.message || "Gagal menyimpan.");
+async function muatHTML() {
+  const file = document.getElementById("fileHTML").value;
+  const res = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
+    headers: {
+      Authorization: `token ${token}`
     }
+  });
+  const data = await res.json();
+  const content = atob(data.content.replace(/\n/g, ""));
+  document.getElementById("editorHTML").value = content;
+  document.getElementById("editorHTML").dataset.sha = data.sha;
+  document.getElementById("statusHTML").textContent = "✅ Berhasil membuka " + file;
+}
 
-  } catch (err) {
-    console.error("Error:", err);
-    alert("❌ Gagal menyimpan: " + err.message);
+async function simpanHTML() {
+  const file = document.getElementById("fileHTML").value;
+  const isi = document.getElementById("editorHTML").value;
+  const sha = document.getElementById("editorHTML").dataset.sha;
+
+  const res = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `token ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: `Update file ${file} via admin panel`,
+      content: btoa(unescape(encodeURIComponent(isi))),
+      sha: sha,
+      branch: branch
+    })
+  });
+
+  if (res.ok) {
+    document.getElementById("statusHTML").textContent = "✅ Berhasil disimpan ke " + file;
+    muatHTML(); // refresh SHA baru
+  } else {
+    document.getElementById("statusHTML").textContent = "❌ Gagal menyimpan. Cek token dan izin repo.";
   }
 }
