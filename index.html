@@ -325,11 +325,13 @@
     </div>
   </div>
 </section>
+</section> <!-- Penutup section pengumuman -->
 
-
-<section id="kontenBeranda" style="padding: 2em; max-width: 900px; margin: auto;">
-  <h2 style="text-align:center;">🕌 Sambutan</h2>
-  <div id="isiBeranda" style="text-align: justify;"></div>
+<section id="welcome-section" class="py-5">
+  <div class="container">
+    <h3 id="selamat-judul" class="mb-3 text-center fw-bold">Selamat Datang</h3>
+    <div id="selamat-isi" class="fs-5 text-justify"></div>
+  </div>
 </section>
 
 <script>
@@ -491,6 +493,19 @@ document.getElementById("loginModal").addEventListener("click", function(e) {
       if (section) section.style.display = "none";
     }
   </script>
+<script>
+  fetch("https://raw.githubusercontent.com/Segalor/Masjid_Baiturrahman/main/data/selamat_datang.json")
+    .then(res => res.json())
+    .then(data => {
+      if (data.tampilkan === "ya") {
+        document.getElementById("selamat-judul").innerText = data.judul || "";
+        document.getElementById("selamat-isi").innerHTML = data.isi || "";
+      } else {
+        document.getElementById("welcome-section").style.display = "none";
+      }
+    })
+    .catch(err => console.error("Gagal ambil data selamat_datang.json", err));
+</script>
 
 </body>
 </html>
