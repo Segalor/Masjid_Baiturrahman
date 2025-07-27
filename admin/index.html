@@ -157,7 +157,7 @@
     <hr style="border-color:#475569; margin: 0.8em 0;">
     <div class="menu-item" onclick="showTab('pengaturan')">Pengaturan</div>
     <hr style="border-color:#475569; margin: 0.8em 0 auto;">
-    <div class="menu-item" onclick="window.location.href='/'">← Kembali ke Website Masjid</div>
+    <div class="menu-item" onclick="window.location.href=' https://segalor.github.io/Masjid_Baiturrahman/'">← Kembali ke Website Masjid</div>
   </div>
 
   <div class="content">
@@ -425,6 +425,27 @@
       });
     });
   });
+</script>
+<script>
+  let tabSebelumnya = 'beranda'; // default tab awal
+
+  // Catat tab yang aktif sebelum berpindah
+  function showTab(id) {
+    const aktifSekarang = document.querySelector('.tab.active');
+    if (aktifSekarang && aktifSekarang.id !== id) {
+      tabSebelumnya = aktifSekarang.id;
+    }
+
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+
+    if (window.innerWidth < 768) toggleSidebar();
+  }
+
+  // Fungsi kembali ke tab sebelumnya
+  function kembaliKeSebelumnya() {
+    showTab(tabSebelumnya);
+  }
 </script>
 
 
