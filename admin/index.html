@@ -102,6 +102,25 @@
       height: 50px;
       width: auto;
     }
+	 @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+    }
+       .sidebar.active {
+        transform: translateX(0);
+    }
+	.toggle-btn {
+        display: block;
+    }
+	  .content {
+        margin-left: 0 !important;
+    }
+	  body {
+        overflow-x: hidden;
+    }
+      table {
+        width: 100%;
+    }
   </style>
 </head>
 <body>
